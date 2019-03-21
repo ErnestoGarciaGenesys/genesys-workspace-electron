@@ -1,22 +1,15 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "workspace-electron",
+  "version": "0.0.1",
+  "description": "Workspace Web in Electron",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "//repository": "https://github.com/electron/electron-quick-start",
+
+  "//": "Arrow keys for navigating a contextual menu are enabled in electron 5. Registering global shortcuts not working for electron >5.0.0-beta.3 - Issue #17246. App crashes when tray.popUpContextMenu() is called again with context menu open (Windows 10) in electron 5 - Issue #17353",
   "devDependencies": {
-    "electron": "^4.0.7"
+    "electron": "5.0.0-beta.2"
   }
 }
