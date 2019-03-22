@@ -1,27 +1,42 @@
-// Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+DEV = (process.env.NODE_ENV.trim() == 'development')
+
+console.log(
+  'process.env.NODE_ENV="' + process.env.NODE_ENV + '", ' + 
+  'development mode is ' + DEV)
+
+const electron = require('electron')
+const {app, BrowserWindow} = electron
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+// Required for showing notifications on Windows 10
+app.setAppUserModelId(process.execPath)
+
+// Info on embedding existing webapps into Electron:
+// https://slack.engineering/interops-labyrinth-sharing-code-between-web-electron-apps-f9474d62eccc
+
 function createWindow () {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    icon: "icons/status_online.png",
+
     webPreferences: {
-      nodeIntegration: true
+      preload: require('path').join(__dirname, 'preload.js'),
+      nodeIntegration: DEV,
+      // contextIsolation: true,
     }
   })
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.setMenuBarVisibility(DEV)
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  if (DEV)
+    mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
+  mainWindow.loadURL('https://gwa-use1.genesyscloud.com/ui/wwe/index.html')
+
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -30,12 +45,21 @@ function createWindow () {
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+function createTray() {
+  tray = new electron.Tray("icons/status_offline.png")
 
-// Quit when all windows are closed.
+  app.on('quit', function() {
+    tray.destroy();
+  });
+
+  return tray
+}
+
+app.on('ready', () => {
+  global.tray = createTray()
+  createWindow()
+})
+
 app.on('window-all-closed', function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
@@ -51,6 +75,3 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
