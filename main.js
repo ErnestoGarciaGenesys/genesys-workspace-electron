@@ -1,6 +1,6 @@
 DEV = (process.env.NODE_ENV.trim() == 'development')
 
-console.log(
+console.info(
   'process.env.NODE_ENV="' + process.env.NODE_ENV + '", ' + 
   'development mode is ' + DEV)
 
@@ -13,6 +13,7 @@ let mainWindow
 
 // Required for showing notifications on Windows 10
 app.setAppUserModelId(process.execPath)
+console.info("Process executing " + process.execPath)
 
 // Info on embedding existing webapps into Electron:
 // https://slack.engineering/interops-labyrinth-sharing-code-between-web-electron-apps-f9474d62eccc

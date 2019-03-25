@@ -1,14 +1,19 @@
 {
-  "name": "workspace-electron",
+  "name": "genesys-workspace-electron",
   "version": "0.0.1",
   "description": "Workspace Web in Electron",
   "main": "main.js",
   "scripts": {
     "start": "set NODE_ENV=development && electron ."
   },
-  "//repository": "https://github.com/electron/electron-quick-start",
-  "//": "Recommended electron: 5.0.0-beta.2. Arrow keys for navigating a contextual menu are enabled in electron 5. Registering global shortcuts not working for electron >5.0.0-beta.3 - Issue #17246. App crashes when tray.popUpContextMenu() is called again with context menu open (Windows 10) in electron 5 - Issue #17353",
+  "repository": "https://github.com/ErnestoGarciaGenesys/genesys-workspace-electron",
+  "//": [
+    "Recommended electron: 5.0.0-beta.2.",
+    "Arrow keys for navigating a contextual menu are enabled in electron 5. Not working in electron 4.",
+    "Registering global shortcuts not working for electron >5.0.0-beta.3 - Issue #17246",
+    "App crashes when tray.popUpContextMenu() is called again with context menu open (Windows 10) in electron 5 - Issue #17353"
+  ],
   "devDependencies": {
-    "electron": "5.0.0-beta.6"
+    "electron": "4.1.1"
   }
 }
