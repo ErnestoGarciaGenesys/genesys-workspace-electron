@@ -1,4 +1,4 @@
-DEV = (process.env.NODE_ENV.trim() == 'development')
+DEV = (typeof process.env.NODE_ENV !== 'undefined') && (process.env.NODE_ENV.trim() == 'development')
 
 console.info(
   'process.env.NODE_ENV="' + process.env.NODE_ENV + '", ' + 
@@ -12,7 +12,8 @@ const {app, BrowserWindow} = electron
 let mainWindow
 
 // Required for showing notifications on Windows 10
-app.setAppUserModelId(process.execPath)
+app.setAppUserModelId(DEV ? process.execPath : 'com.genesys.workspace-electron')
+
 console.info("Process executing " + process.execPath)
 
 // Info on embedding existing webapps into Electron:

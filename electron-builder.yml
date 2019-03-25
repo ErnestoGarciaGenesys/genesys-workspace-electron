@@ -1,0 +1,5 @@
+productName: "Genesys PureEngage Workspace"
+appId: "com.genesys.workspace-electron"
+
+extraFiles:
+  - "icons/*.png"

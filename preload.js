@@ -1,7 +1,7 @@
 console.debug('Executing preload.js...')
 console.debug('This is the electron version' + process.versions.electron)
 
-DEV = (process.env.NODE_ENV.trim() == 'development')
+DEV = (typeof process.env.NODE_ENV !== 'undefined') && (process.env.NODE_ENV.trim() == 'development')
 
 electron = require('electron')
 

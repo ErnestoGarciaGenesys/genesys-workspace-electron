@@ -4,7 +4,8 @@
   "description": "Workspace Web in Electron",
   "main": "main.js",
   "scripts": {
-    "start": "set NODE_ENV=development && electron ."
+    "start": "electron .",
+    "dev": "set NODE_ENV=development && electron ."
   },
   "repository": "https://github.com/ErnestoGarciaGenesys/genesys-workspace-electron",
   "//": [
