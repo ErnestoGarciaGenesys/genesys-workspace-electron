@@ -87,7 +87,7 @@ function getNativeIconForState(state, size) {
 
   return iconDataUrl ?
     electron.remote.nativeImage.createFromDataURL(iconDataUrl) :
-    'icons/status_online.png';
+    'icons/agent.png';
 }
 
 function setupTray() {

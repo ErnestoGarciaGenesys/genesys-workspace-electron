@@ -1,0 +1,48 @@
+<html>
+<head>
+<style>
+    @font-face {
+        font-family: wwe-icons;
+        src: url(wwe-icons.woff);
+    }    
+</style>
+</head>
+<body style='font-family: wwe-icons; font-size: 256px;
+    color: white; background-color:dimgray'>
+    &#57379;
+    <canvas id="renderCanvas256"
+        width="256" height="256"
+        style="border: 1px solid"
+    ></canvas>
+    <img id="renderImage256"
+        width="256" height="256"
+        style="border: 1px solid">
+    <canvas id="renderCanvas16"
+        width="16" height="16"
+        style="border: 1px solid"
+    ></canvas>
+    <img id="renderImage16"
+        width="16" height="16"
+        style="border: 1px solid">
+</body>
+<script>
+    function render(size) {
+        canvas = document.getElementById('renderCanvas' + size)
+        context = canvas.getContext('2d')
+        context.textBaseline = 'top'
+        context.font = size + 'px wwe-icons'
+        // context.fillStyle = 'black'
+        // context.fillText(String.fromCharCode(57379), 12, 12)
+        context.fillStyle = 'white'
+        context.fillText(String.fromCharCode(57379), 0, 0)
+
+        image = document.getElementById('renderImage' + size)
+        image.src = canvas.toDataURL('image/png')
+    }
+
+    onload = function() {
+        render(256)
+        render(16)
+    }
+</script>
+</html>

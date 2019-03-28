@@ -11,6 +11,8 @@ npm install
 npm start
 # Run the app in development mode
 npm run dev
+# Package app in distributable format
+npm run dist
 ```
 
 When enabled, development mode:

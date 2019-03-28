@@ -23,7 +23,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: "icons/status_online.png",
+    icon: "icons/agent.png",
 
     webPreferences: {
       preload: require('path').join(__dirname, 'preload.js'),
@@ -48,7 +48,7 @@ function createWindow () {
 }
 
 function createTray() {
-  tray = new electron.Tray("icons/status_offline.png")
+  tray = new electron.Tray("icons/agent16.png")
 
   app.on('quit', function() {
     tray.destroy();
