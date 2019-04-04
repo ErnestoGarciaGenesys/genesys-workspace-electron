@@ -28,7 +28,11 @@ function createWindow () {
     webPreferences: {
       preload: require('path').join(__dirname, 'preload.js'),
       nodeIntegration: DEV,
-      // contextIsolation: true,
+
+      // This is needed for preload.js callbacks to be
+      // invoked by Workspace Web events.
+      // But it should be true for security purposes!!!
+      contextIsolation: false, 
     }
   })
 
@@ -61,6 +65,19 @@ app.on('ready', () => {
   global.tray = createTray()
   createWindow()
 })
+
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, argv, workingDirectory) => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()      
+      mainWindow.focus()
+    }
+  })
+}
 
 app.on('window-all-closed', function () {
   // On macOS it is common for applications and their menu bar

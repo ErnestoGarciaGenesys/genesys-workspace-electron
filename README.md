@@ -32,6 +32,8 @@ Generating an installation package is configured through [electron-builder](http
 
 Menu bar is hidden, but it could potentially be used for application actions.
 
+Only one instance of the application can be run at the same time. Executing the application again just puts focus on the application currently running.
+
 ## To Use
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
