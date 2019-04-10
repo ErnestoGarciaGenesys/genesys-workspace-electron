@@ -29,9 +29,8 @@ function createWindow () {
       preload: require('path').join(__dirname, 'preload.js'),
       nodeIntegration: DEV,
 
-      // This is needed for preload.js callbacks to be
-      // invoked by Workspace Web events.
-      // But it should be true for security purposes!!!
+      // This is needed for preload.js callbacks to work propertly.
+      // But it is recommended to be true for security purposes!!!
       contextIsolation: false, 
     }
   })
