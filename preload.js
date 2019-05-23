@@ -1,7 +1,13 @@
 console.debug('Executing preload.js...')
 console.debug('Electron version is ' + process.versions.electron)
 
-DEV = (typeof process.env.NODE_ENV !== 'undefined') && (process.env.NODE_ENV.trim() == 'development')
+function checkAppParam(paramName, valueToCheck) {
+  console.debug(`Checking application parameter "${paramName}" for value "${valueToCheck}". Actual value is "${process.env[paramName]}".`)
+  return (typeof process.env[paramName] !== 'undefined') && (process.env[paramName].trim() == valueToCheck)
+}
+
+DEV = checkAppParam('NODE_ENV', 'development')
+WIDGET = checkAppParam('WORKSPACE_ELECTRON_UI_MODE', 'WIDGET')
 
 electron = require('electron')
 
@@ -92,7 +98,10 @@ function getNativeIconForState(state, size) {
 
 function setupTray() {
   tray = electron.remote.getGlobal('tray')
-  tray.on('click', () => tray.popUpContextMenu())
+
+  if (!WIDGET) {
+    tray.on('click', () => tray.popUpContextMenu())
+  }
 }
 
 function showAgentStateNotification() {

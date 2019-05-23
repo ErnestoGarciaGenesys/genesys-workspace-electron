@@ -5,7 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "start_widget": "set WORKSPACE_ELECTRON_UI_MODE=WIDGET && electron .",
     "dev": "set NODE_ENV=development && electron .",
+    "dev_widget": "set WORKSPACE_ELECTRON_UI_MODE=WIDGET && set NODE_ENV=development && electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
@@ -17,7 +19,7 @@
     "Solved in electron 5.0.0-beta.8: App crashes when tray.popUpContextMenu() is called again with context menu open (Windows 10) in electron 5 - Issue #17353"
   ],
   "devDependencies": {
-    "electron": "5.0.0-beta.8",
+    "electron": "5.0.1",
     "electron-builder": "^20.39.0"
   }
 }

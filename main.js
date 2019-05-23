@@ -1,8 +1,10 @@
-DEV = (typeof process.env.NODE_ENV !== 'undefined') && (process.env.NODE_ENV.trim() == 'development')
+function checkAppParam(paramName, valueToCheck) {
+  console.debug(`Checking application parameter "${paramName}" for value "${valueToCheck}". Actual value is "${process.env[paramName]}".`)
+  return (typeof process.env[paramName] !== 'undefined') && (process.env[paramName].trim() == valueToCheck)
+}
 
-console.info(
-  'process.env.NODE_ENV="' + process.env.NODE_ENV + '", ' + 
-  'development mode is ' + DEV)
+DEV = checkAppParam('NODE_ENV', 'development')
+WIDGET = checkAppParam('WORKSPACE_ELECTRON_UI_MODE', 'WIDGET')
 
 const electron = require('electron')
 const {app, BrowserWindow} = electron
@@ -20,27 +22,68 @@ console.info("Process executing " + process.execPath)
 // https://slack.engineering/interops-labyrinth-sharing-code-between-web-electron-apps-f9474d62eccc
 
 function createWindow () {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    icon: "icons/agent.png",
+  // Alternatives for app options:
+  // - Command line switch: app.commandLine.hasSwitch(switch), app.commandLine.getSwitchValue(switch)
+  // - Environment.
+  // - package.json
+  // Any of those.
+  
+  if (WIDGET) {
+    width = 400
+    if (DEV) width += 600
+    height = 600
 
-    webPreferences: {
-      preload: require('path').join(__dirname, 'preload.js'),
-      nodeIntegration: DEV,
+    mainWindow = new BrowserWindow({
+      width: width,
+      x: electron.screen.getPrimaryDisplay().bounds.width - width - 40,
+      height: height,
+      y: electron.screen.getPrimaryDisplay().bounds.height - height - 40,
+      // frame: false,
+      alwaysOnTop: true,
+      maximizable: false,
+      fullscreenable: false,
 
-      // This is needed for preload.js callbacks to work propertly.
-      // But it is recommended to be true for security purposes!!!
-      contextIsolation: false, 
-    }
-  })
+      icon: "icons/agent.png",
+
+      show: false,
+  
+      webPreferences: {
+        preload: require('path').join(__dirname, 'preload.js'),
+        nodeIntegration: DEV,
+  
+        // This is needed for preload.js callbacks to work propertly.
+        // But it is recommended to be true for security purposes!!!
+        contextIsolation: false, 
+      }
+    })
+
+    // mainWindow.loadFile('widget/workspace-widget.html')
+    mainWindow.loadURL('http://genprim.com/my/workspace-widget.html')
+  }
+  else {
+    mainWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
+      icon: "icons/agent.png",
+      show: false,
+  
+      webPreferences: {
+        preload: require('path').join(__dirname, 'preload.js'),
+        nodeIntegration: DEV,
+  
+        // This is needed for preload.js callbacks to work propertly.
+        // But it is recommended to be true for security purposes!!!
+        contextIsolation: false, 
+      }
+    })
+
+    mainWindow.loadURL('https://gwa-use1.genesyscloud.com/ui/wwe/index.html')
+  }
 
   mainWindow.setMenuBarVisibility(DEV)
 
   if (DEV)
     mainWindow.webContents.openDevTools()
-
-  mainWindow.loadURL('https://gwa-use1.genesyscloud.com/ui/wwe/index.html')
 
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
@@ -48,10 +91,21 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  mainWindow.show()
 }
 
 function createTray() {
   tray = new electron.Tray("icons/agent16.png")
+
+  if (WIDGET) {
+    tray.on('click', () => {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore()
+      }
+      mainWindow.show()
+    })
+  }
 
   app.on('quit', function() {
     tray.destroy();
