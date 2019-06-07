@@ -45,7 +45,7 @@ function getAgentStatePosition(stateName) {
 }
 
 function getSortedAgentStates() {
-  return genesys.wwe.agent.get('statesList').chain()
+  return genesys.wwe.agent.get('stateList').chain()
     .sortBy(s => s.get('displayName'))
     .sortBy(s => getAgentStatePosition(s.get('state')))
     .value()
@@ -192,14 +192,18 @@ function onWorkspaceReady() {
   registerShortcuts()
 
   genesys.wwe.agent.on('change:state', function () {
-    console.debug('Handling agent stated changed to ' + 
+    console.debug('Handling agent state changed to ' + 
       genesys.wwe.agent.get('state').get('displayName'))
     
-    showAgentStateNotification()
-    updateTrayIcon()
-    updateTrayMenu()
-    updateAppIcon()
-    updateThumbarButtons()
+    try {
+      showAgentStateNotification()
+      updateTrayIcon()
+      updateTrayMenu()
+      updateAppIcon()
+      updateThumbarButtons()
+    } catch (e) {
+      console.error(e)
+    }
   });
 }
 
