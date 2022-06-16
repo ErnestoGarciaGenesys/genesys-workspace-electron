@@ -19,7 +19,7 @@
     "Solved in electron 5.0.0-beta.8: App crashes when tray.popUpContextMenu() is called again with context menu open (Windows 10) in electron 5 - Issue #17353"
   ],
   "devDependencies": {
-    "electron": "5.0.1",
+    "electron": "15.5.5",
     "electron-builder": "^20.43.0"
   }
 }
